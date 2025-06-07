@@ -1,0 +1,20 @@
+name: Auto Sync Fork
+on:
+  schedule:
+    - cron: "0 0 * * *"  # 每天UTC时间0点执行（北京时间8点）
+  workflow_dispatch:     # 支持手动触发
+permissions:
+  contents: write        # 允许写入仓库
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Sync Upstream
+        uses: Kean/andrew_zhj@msn.com
+        with:
+          upstream_sync_repo: Fosowl/agenticSeek
+          upstream_sync_branch: main        # 原始仓库分支
+          target_sync_branch: main          # 你的fork分支
+          target_repo_token: ${{ secrets.GITHUB_TOKEN }}
